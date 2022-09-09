@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <list>
 using namespace std;
 
 using uint = unsigned int;
@@ -177,7 +177,13 @@ void Agenda::agregar_recordatorio(Recordatorio rec) {
 
 }
 list<Recordatorio> Agenda::recordatorios_de_hoy() {
-
+    list<Recordatorio> dia_hoy = {};
+    for (Recordatorio recordatorios: agenda){
+        if (_hoy == recordatorios.fecha()){
+            dia_hoy.push_back(recordatorios);
+        }
+    }
+    return dia_hoy;
 }
 
 void Agenda::incrementar_dia() {
