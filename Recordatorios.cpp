@@ -7,10 +7,10 @@ using uint = unsigned int;
 // Pre: 0 <= mes < 12
 uint dias_en_mes(uint mes) {
     uint dias[] = {
-        // ene, feb, mar, abr, may, jun
-        31, 28, 31, 30, 31, 30,
-        // jul, ago, sep, oct, nov, dic
-        31, 31, 30, 31, 30, 31
+            // ene, feb, mar, abr, may, jun
+            31, 28, 31, 30, 31, 30,
+            // jul, ago, sep, oct, nov, dic
+            31, 31, 30, 31, 30, 31
     };
     return dias[mes - 1];
 }
@@ -18,7 +18,7 @@ uint dias_en_mes(uint mes) {
 // Ejercicio 7, 8, 9 y 10
 
 class Fecha {
-  public:
+public:
     Fecha(int mes, int dia);
     int mes();
     int dia();
@@ -28,7 +28,7 @@ class Fecha {
     void incrementar_dia();
 
 
-  private:
+private:
     int _mes;
     int _dia;
 };
@@ -123,16 +123,16 @@ ostream& operator<<(ostream& os, Horario h) {
 // Clase Recordatorio
 
 class Recordatorio {
-    public:
-        Recordatorio(Fecha fecha, Horario horario, string mensaje);
-        Fecha fecha();
-        Horario horario();
-        string mensaje();
+public:
+    Recordatorio(Fecha fecha, Horario horario, string mensaje);
+    Fecha fecha();
+    Horario horario();
+    string mensaje();
 
-    private:
-        Fecha _fecha;
-        Horario _horario;
-        string _mensaje;
+private:
+    Fecha _fecha;
+    Horario _horario;
+    string _mensaje;
 };
 
 Recordatorio::Recordatorio(Fecha fecha, Horario horario, string mensaje): _fecha(fecha), _horario(horario), _mensaje(mensaje){}
@@ -158,33 +158,32 @@ ostream& operator<<(ostream& os, Recordatorio r) {
 // Clase Agenda
 
 class Agenda {
-    public:
-        Agenda(Fecha fecha_inicial);
-        void agregar_recordatorio(Recordatorio rec);
-        void incrementar_dia();
-        list<Recordatorio> recordatorios_de_hoy();
-        Fecha hoy();
+public:
+    Agenda(Fecha fecha_inicial);
+    void agregar_recordatorio(Recordatorio rec);
+    void incrementar_dia();
+    list<Recordatorio> recordatorios_de_hoy();
+    Fecha hoy();
 
-    private:
-        Recordatorio _recordatorio;
-        Fecha _fecha_inicial;
-        Fecha _hoy;
-        list<Recordatorio> _agenda
+private:
+    Fecha _hoy;
+    list<Recordatorio> _agenda;
 };
 
-Agenda::Agenda(Fecha fecha_inicial): _fecha_inicial(fecha_inicial) {}
+Agenda::Agenda(Fecha fecha_inicial): _hoy(fecha_inicial) {}
 
 void Agenda::agregar_recordatorio(Recordatorio rec) {
     _agenda.push_back(rec);
 
 }
 list<Recordatorio> Agenda::recordatorios_de_hoy() {
-    list<Recordatorio> dia_hoy = {};
+    list<Recordatorio> dia_hoy;
     for (Recordatorio recordatorios: _agenda){
-        if (_hoy == recordatorios.fecha()){
+        if (recordatorios.fecha() == _hoy){
             dia_hoy.push_back(recordatorios);
         }
     }
+    dia_hoy.sort([](Recordatorio a, Recordatorio b){return(a.horario() < b.horario());});
     return dia_hoy;
 }
 
@@ -196,4 +195,10 @@ Fecha Agenda::hoy() {
     return _hoy;
 }
 
-
+ostream& operator<<(ostream& os, Agenda a) {
+    os << a.hoy() << endl << "=====" << endl;
+    for (Recordatorio r: a.recordatorios_de_hoy()){
+        os << r << endl;
+    }
+    return os;
+}
