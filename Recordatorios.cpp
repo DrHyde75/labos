@@ -169,16 +169,18 @@ class Agenda {
         Recordatorio _recordatorio;
         Fecha _fecha_inicial;
         Fecha _hoy;
+        list<Recordatorio> _agenda
 };
 
 Agenda::Agenda(Fecha fecha_inicial): _fecha_inicial(fecha_inicial) {}
 
 void Agenda::agregar_recordatorio(Recordatorio rec) {
+    _agenda.push_back(rec);
 
 }
 list<Recordatorio> Agenda::recordatorios_de_hoy() {
     list<Recordatorio> dia_hoy = {};
-    for (Recordatorio recordatorios: agenda){
+    for (Recordatorio recordatorios: _agenda){
         if (_hoy == recordatorios.fecha()){
             dia_hoy.push_back(recordatorios);
         }
